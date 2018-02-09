@@ -13,7 +13,7 @@ public class Flight {
         num++;
         seats=new Seat[num];
         for (int i=0;i<num;i++){
-            seats[i]=new Seat(this.flight_id,i);
+            seats[i]=new Seat(this.flight_id,i,0);
         }
     }
 }
