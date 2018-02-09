@@ -8,5 +8,6 @@ public class Flight {
         Random random= new Random();
         num=random.nextInt(100);
         num++;
+        status=new int[num];
     }
 }
