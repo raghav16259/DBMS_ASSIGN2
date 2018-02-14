@@ -8,4 +8,9 @@ public class Seat{
         this.seat_number=seat_number;
         this.passenger_id=passenger_id;
     }
+
+    @Override
+    public String toString() {
+        return ("Seat Number: "+seat_number+" Paseenger_ID "+passenger_id);
+    }
 }
