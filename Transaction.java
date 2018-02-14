@@ -6,12 +6,16 @@ public class Transaction {
     public int passenger_id;
     public Flight[] flights;
     public Passenger[] passenger;
-    public Transaction(Flight[] flights,Passenger[] passenger,int type,int flight_id, int passenger_id,int flight_id_2) throws InterruptedException {
+    public int counter;
+    public int id;
+    public Transaction(Flight[] flights,Passenger[] passenger,int type,int flight_id, int passenger_id,int flight_id_2,int id,int counter) throws InterruptedException {
         this.type = type;
         this.flight_id = flight_id;
         this.passenger_id = passenger_id;
         this.flights=flights;
         this.passenger=passenger;
+        this.id=id;
+        this.counter=counter;
         switch (type)
         {
             case 1: reserve(flight_id,passenger_id);
@@ -20,7 +24,7 @@ public class Transaction {
                 break;
             case 3: my_flights(passenger_id);
                 break;
-            case 4: System.out.println("count= "+total_reservations());
+            case 4: System.out.println("count= "+total_reservations()+" ID: "+id+" Counter: "+counter);
                 break;
             case 5: transfer(flight_id,flight_id_2,passenger_id);
                 break;
@@ -34,13 +38,13 @@ public class Transaction {
             if (flights[flight_id-1].seats[i].passenger_id==0){
                 flights[flight_id-1].seats[i].passenger_id=passenger_id;
                 passenger[passenger_id-1].booked.add(flights[flight_id-1].seats[i]);
-                System.out.println("Passenger: "+passenger_id+" reserved Seat Number: "+i+" in Flight: "+flight_id);
+                System.out.println("Passenger: "+passenger_id+" reserved Seat Number: "+i+" in Flight: "+flight_id+" ID: "+id+" Counter: "+counter);
                 flag=1;
                 break;
             }
         }
         if(flag==0)
-            System.out.println("Reservation Unsuccessful");
+            System.out.println("Reservation Unsuccessful"+" ID: "+id+" Counter: "+counter);
     }
     public void cancel(int flight_id,int passenger_id) throws InterruptedException {
         int flag=0;
@@ -50,22 +54,23 @@ public class Transaction {
             if (flights[flight_id-1].seats[i].passenger_id==passenger_id){
                 flights[flight_id-1].seats[i].passenger_id=0;
                 passenger[passenger_id-1].booked.remove(flights[flight_id-1].seats[i]);
-                System.out.println("Passenger: "+passenger_id+" cancelled Seat Number: "+i+" in Flight: "+flight_id);
+                System.out.println("Passenger: "+passenger_id+" cancelled Seat Number: "+i+" in Flight: "+flight_id+" ID: "+id+" Counter: "+counter);
                 flag=1;
             }
         }
         if(flag==0)
-            System.out.println("No reservation found for Passenger: "+passenger_id+" in Flight: "+flight_id);
+            System.out.println("No reservation found for Passenger: "+passenger_id+" in Flight: "+flight_id+" ID: "+id+" Counter: "+counter);
     }
     public void my_flights(int passenger_id) throws InterruptedException {
         ArrayList<Seat> p=passenger[passenger_id-1].booked;
         if(p.size()==0)
-            System.out.println("No flights");
+            System.out.println("No flights"+" ID: "+id+" Counter: "+counter);
         for(int i=0;i<p.size();i++)
         {
             Thread.sleep(5);
-            System.out.println("Flight: "+p.get(i).flight_id+" Seat: "+p.get(i).seat_number);
+            System.out.println("Flight: "+p.get(i).flight_id+" Seat: "+p.get(i).seat_number+" ID: "+id+" Counter: "+counter);
         }
+
     }
     public int total_reservations() throws InterruptedException {
         int count=0;
@@ -97,7 +102,7 @@ public class Transaction {
                         passenger[passenger_id-1].booked.remove(flights[flight_id_1-1].seats[i]);
                         flights[flight_id_2-1].seats[j].passenger_id=passenger_id;
                         passenger[passenger_id-1].booked.add(flights[flight_id_2-1].seats[i]);
-                        System.out.println("Passenger: "+passenger_id+"transferred from Flight: "+flight_id_1+" to Flight: "+flight_id_2);
+                        System.out.println("Passenger: "+passenger_id+"transferred from Flight: "+flight_id_1+" to Flight: "+flight_id_2+" ID: "+id+" Counter: "+counter);
                         flag=1;
                         break;
                     }
@@ -105,7 +110,7 @@ public class Transaction {
             }
         }
         if(flag==0)
-        System.out.println("Transaction Failed");
+        System.out.println("Transaction Failed"+" ID: "+id+" Counter: "+counter);
 
     }
 }

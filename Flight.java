@@ -5,8 +5,10 @@ public class Flight {
     public int flight_id;
     public int num;
     public Seat[] seats;
+    public int status;
 
     public Flight(int flight_id){
+        status=0;
         Random random= new Random();
         this.flight_id=flight_id;
         num=random.nextInt(100);

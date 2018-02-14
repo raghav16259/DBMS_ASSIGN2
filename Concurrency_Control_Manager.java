@@ -55,10 +55,11 @@ public class Concurrency_Control_Manager implements Runnable
             }
             synchronized(this)
             {
+                //System.out.println(Thread.currentThread());
                 System.out.println("ID: "+id+" Counter: "+counter);
                 System.out.println("Type: "+type+" Flight_ID: "+flight_id+" Passenger_ID: "+passenger_id+" Flight_ID_2: "+flight_id_2);
                 try {
-                    Transaction transaction=new Transaction(flight,passenger,type,flight_id,passenger_id,flight_id_2);
+                    Transaction transaction=new Transaction(flight,passenger,type,flight_id,passenger_id,flight_id_2,id,counter);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
